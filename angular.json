@@ -2,5 +2,210 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "movie": {
+      "projectType": "library",
+      "root": "projects/movie",
+      "sourceRoot": "projects/movie/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/movie/tsconfig.lib.json",
+            "project": "projects/movie/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/movie/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/movie/src/test.ts",
+            "tsConfig": "projects/movie/tsconfig.spec.json",
+            "karmaConfig": "projects/movie/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/movie/tsconfig.lib.json",
+              "projects/movie/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "movie-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/movie-app",
+      "sourceRoot": "projects/movie-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/movie-app",
+            "index": "projects/movie-app/src/index.html",
+            "main": "projects/movie-app/src/main.ts",
+            "polyfills": "projects/movie-app/src/polyfills.ts",
+            "tsConfig": "projects/movie-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/movie-app/src/favicon.ico",
+              "projects/movie-app/src/assets"
+            ],
+            "styles": [
+              "projects/movie-app/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/movie-app/src/environments/environment.ts",
+                  "with": "projects/movie-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "movie-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "movie-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "movie-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/movie-app/src/test.ts",
+            "polyfills": "projects/movie-app/src/polyfills.ts",
+            "tsConfig": "projects/movie-app/tsconfig.spec.json",
+            "karmaConfig": "projects/movie-app/karma.conf.js",
+            "assets": [
+              "projects/movie-app/src/favicon.ico",
+              "projects/movie-app/src/assets"
+            ],
+            "styles": [
+              "projects/movie-app/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/movie-app/tsconfig.app.json",
+              "projects/movie-app/tsconfig.spec.json",
+              "projects/movie-app/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/movie-app/e2e/protractor.conf.js",
+            "devServerTarget": "movie-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "movie-app:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "core": {
+      "projectType": "library",
+      "root": "projects/core",
+      "sourceRoot": "projects/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/core/tsconfig.lib.json",
+            "project": "projects/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/core/src/test.ts",
+            "tsConfig": "projects/core/tsconfig.spec.json",
+            "karmaConfig": "projects/core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/core/tsconfig.lib.json",
+              "projects/core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "cli": {
+    "analytics": false
+  },
+  "defaultProject": "movie-app"
 }
